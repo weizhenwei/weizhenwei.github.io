@@ -253,7 +253,9 @@ multitask :push do
   puts "## Deploying branch to Github Pages "
   puts "## Pulling any updates from Github Pages "
   cd "#{deploy_dir}" do 
-    Bundler.with_clean_env { system "git pull" }
+    # Bundler.with_clean_env { system "git pull" }
+    # by weizhenwei, 2014.11.30
+    Bundler.with_clean_env { system "git pull origin #{deploy_branch}" }
   end
   (Dir["#{deploy_dir}/*"]).each { |f| rm_rf(f) }
   Rake::Task[:copydot].invoke(public_dir, deploy_dir)
