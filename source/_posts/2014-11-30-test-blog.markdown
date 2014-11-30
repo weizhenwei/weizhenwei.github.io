@@ -1,0 +1,10 @@
+---
+layout: post
+title: "test blog"
+date: 2014-11-30 16:46:22 +0800
+comments: true
+categories: 
+---
+
+This is the test file octopress blog system.
+
