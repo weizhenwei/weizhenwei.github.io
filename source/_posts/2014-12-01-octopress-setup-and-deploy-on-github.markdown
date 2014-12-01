@@ -59,8 +59,8 @@ categories:
 
 -----
 ##参考文献：
-http://octopress.org/docs/setup/
-http://octopress.org/docs/deploying/github/
-http://octopress.org/docs/blogging/
-http://stackoverflow.com/questions/21356212/failed-to-deploy-to-github-pages-using-octopress
+[http://octopress.org/docs/setup/](http://octopress.org/docs/setup/)  
+[http://octopress.org/docs/deploying/github/](http://octopress.org/docs/deploying/github/)  
+[http://octopress.org/docs/blogging/](http://octopress.org/docs/blogging/)  
+[http://stackoverflow.com/questions/21356212/failed-to-deploy-to-github-pages-using-octopress](http://stackoverflow.com/questions/21356212/failed-to-deploy-to-github-pages-using-octopress)  
 
