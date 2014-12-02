@@ -11,9 +11,12 @@ categories:
 下面是在Linux mint 13操作系统上安装Octopress和在Github上部署的过程。
 
 ##安装
-###1.安装git和ruby
+###1.安装git, ruby和nodejs
     apt-get install git
-    apt-get install ruby
+    apt-get install libruby1.9.1
+    apt-get install ruby1.9.1
+    apt-get install ruby1.9.1-dev
+    apt-get install nodejs
 ###2.下载Octopress
     git clone git://github.com/imathis/octopress.git octopress
     cd octopress
