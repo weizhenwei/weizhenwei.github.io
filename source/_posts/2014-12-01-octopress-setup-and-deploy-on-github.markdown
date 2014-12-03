@@ -6,7 +6,6 @@ comments: true
 categories: 
 ---
 
-------
 经过充分调研，选定Octopress作为技术博客系统框架。
 下面是在Linux mint 13操作系统上安装Octopress和在Github上部署的过程。
 
@@ -51,6 +50,13 @@ categories:
     git add .
     git commit -m "my comment"
     git push origin source
+
+##添加新页面：
+    1. rake new_page["about"]      # 自动生成source/aboutme目录以及其下的index.markdown文件;  
+    2. 编辑source/aboutme/index.markdown文件;  
+    3. 修改souce/_includes/custom/navigation.html文件，将1.中新建文件路径添加到该文件中。
+    4. rake generate; rake preview; rake deploy;  
+    5. git add .; git commit -m "comment"; git push origin source;  
 
 ##注意事项：
     1.在新的地方git clone代码之后，需要checkout到source分支，
