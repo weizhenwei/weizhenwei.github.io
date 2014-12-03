@@ -11,7 +11,7 @@
   
   <meta name="description" content="经过充分调研，选定Octopress作为技术博客系统框架。
 下面是在Linux mint 13操作系统上安装Octopress和在Github上部署的过程。 安装 1.安装git, ruby和nodejs apt-get install git
-apt-get install libruby1. &hellip;">
+apt-get install libruby1.9 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -87,9 +87,7 @@ apt-get install libruby1. &hellip;">
   </header>
 
 
-<div class="entry-content"><hr />
-
-<p>经过充分调研，选定Octopress作为技术博客系统框架。
+<div class="entry-content"><p>经过充分调研，选定Octopress作为技术博客系统框架。
 下面是在Linux mint 13操作系统上安装Octopress和在Github上部署的过程。</p>
 
 <h2>安装</h2>
@@ -156,6 +154,15 @@ rake deploy;
 git add .
 git commit -m "my comment"
 git push origin source
+</code></pre>
+
+<h2>添加新页面：</h2>
+
+<pre><code>1. rake new_page["about"]      # 自动生成source/aboutme目录以及其下的index.markdown文件;  
+2. 编辑source/aboutme/index.markdown文件;  
+3. 修改souce/_includes/custom/navigation.html文件，将1.中新建文件路径添加到该文件中。
+4. rake generate; rake preview; rake deploy;  
+5. git add .; git commit -m "comment"; git push origin source;  
 </code></pre>
 
 <h2>注意事项：</h2>
