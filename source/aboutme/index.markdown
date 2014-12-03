@@ -1,0 +1,17 @@
+---
+layout: page
+title: "aboutme"
+date: 2014-12-03 22:55
+comments: true
+sharing: true
+footer: true
+---
+
+I am a software engineer in Hefei, China.  
+My technology domain: Linux kernel, Virtualization, Network, Distributed System, etc...  
+Github homepage: [https://github.com/weizhenwei](https://github.com/weizhenwei)  
+Blog homepage:   [http://weizhenwei.github.io](http://weizhenwei.github.io)  
+Email: weizhenwei1988@gmail.com   
+ &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;wzw0114@mail.ustc.edu.cn   
+
+
