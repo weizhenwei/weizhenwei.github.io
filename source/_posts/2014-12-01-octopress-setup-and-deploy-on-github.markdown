@@ -52,8 +52,8 @@ categories:
     git push origin source
 
 ##添加新页面：
-    1. rake new_page["about"]      # 自动生成source/aboutme目录以及其下的index.markdown文件;  
-    2. 编辑source/aboutme/index.markdown文件;  
+    1. rake new_page["aboutme"], 该命令自动生成source/aboutme目录以及其下的index.markdown文件;  
+    2. 编辑source/aboutme/index.markdown文件, 添加内容;  
     3. 修改souce/_includes/custom/navigation.html文件，将1.中新建文件路径添加到该文件中。
     4. rake generate; rake preview; rake deploy;  
     5. git add .; git commit -m "comment"; git push origin source;  
