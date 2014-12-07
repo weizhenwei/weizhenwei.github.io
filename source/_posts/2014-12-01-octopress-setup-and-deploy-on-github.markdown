@@ -3,7 +3,7 @@ layout: post
 title: "Octopress setup and deploy on Github"
 date: 2014-12-01 22:49:57 +0800
 comments: true
-categories: 
+categories: Octopress
 ---
 
 经过充分调研，选定Octopress作为技术博客系统框架。
