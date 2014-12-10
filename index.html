@@ -125,6 +125,43 @@
 
 <p>&emsp;&emsp;sys_read的实现代码比较简单：首先根据文件描述符fd通过fdget_pos(fd)从当前进程结构中得到fd对应的struct fd结构（这个fd结构是struct file结构的进一步封装）；然后调用file_pos_read(f.file)得到当前文件读位置；最后调用vsf_read()进行文件读取操作；如果读取成功，则调用file_pos_write函数更新文件的读当前位置；最后调用fdput_pos函数更新文件的引用计数；最终sys_read返回读取的字节数。<br/>
 &emsp;&emsp;sys_read系统调用实现的核心是vfs_read函数，这涉及到Linux的VFS虚拟文件系统机制，这是另外一个主题，在此就不深入展开了。</p>
+
+<h3>2. SYSCALL_DEFINEx宏的定义</h3>
+
+<p>&emsp;&emsp;SYSCALL_DEFINEx宏是理解Linux内核系统调用定义的关键，该宏在include/linux/syscalls.h中定义：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="cp">#define SYSCALL_DEFINE1(name, ...) SYSCALL_DEFINEx(1, _##name, __VA_ARGS__)  </span>
+</span><span class='line'><span class="cp">#define SYSCALL_DEFINE2(name, ...) SYSCALL_DEFINEx(2, _##name, __VA_ARGS__)  </span>
+</span><span class='line'><span class="cp">#define SYSCALL_DEFINE3(name, ...) SYSCALL_DEFINEx(3, _##name, __VA_ARGS__)  </span>
+</span><span class='line'><span class="cp">#define SYSCALL_DEFINE4(name, ...) SYSCALL_DEFINEx(4, _##name, __VA_ARGS__)  </span>
+</span><span class='line'><span class="cp">#define SYSCALL_DEFINE5(name, ...) SYSCALL_DEFINEx(5, _##name, __VA_ARGS__)  </span>
+</span><span class='line'><span class="cp">#define SYSCALL_DEFINE6(name, ...) SYSCALL_DEFINEx(6, _##name, __VA_ARGS__)  </span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#define SYSCALL_DEFINEx(x, sname, ...)          \  </span>
+</span><span class='line'><span class="n">SYSCALL_METADATA</span><span class="p">(</span><span class="n">sname</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">__VA_ARGS__</span><span class="p">)</span>         <span class="err">\</span>
+</span><span class='line'><span class="n">__SYSCALL_DEFINEx</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">sname</span><span class="p">,</span> <span class="n">__VA_ARGS__</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#define __SYSCALL_DEFINEx(x, name, ...)                     \  </span>
+</span><span class='line'><span class="n">asmlinkage</span> <span class="kt">long</span> <span class="n">sys</span><span class="err">##</span><span class="n">name</span><span class="p">(</span><span class="n">__MAP</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">__SC_DECL</span><span class="p">,</span><span class="n">__VA_ARGS__</span><span class="p">))</span>   <span class="err">\</span>
+</span><span class='line'>    <span class="n">__attribute__</span><span class="p">((</span><span class="n">alias</span><span class="p">(</span><span class="n">__stringify</span><span class="p">(</span><span class="n">SyS</span><span class="err">##</span><span class="n">name</span><span class="p">))));</span>         <span class="err">\</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>&emsp;&emsp;其中SYSCALL_METADATA是和CONFIG_FTRACE_SYSCALLS相关的一个宏定义；关键字asmlinkage告诉编译器函数的参数从栈上获得，所有系统调用都采取这种参数传递方式；##用在宏中表示字符串链接。</p>
 </div>
   
   
