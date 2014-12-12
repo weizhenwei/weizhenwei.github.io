@@ -46,7 +46,11 @@ categories: Linux kernel
     asmlinkage long sys##name(__MAP(x,__SC_DECL,__VA_ARGS__))   \  
         __attribute__((alias(__stringify(SyS##name))));         \  
 ```
-&emsp;&emsp;其中SYSCALL_METADATA是和CONFIG_FTRACE_SYSCALLS相关的一个宏定义；关键字asmlinkage告诉编译器函数的参数从栈上获得，所有系统调用都采取这种参数传递方式；##用在宏中表示字符串链接。  
+&emsp;&emsp;其中SYSCALL_METADATA是和CONFIG_FTRACE_SYSCALLS相关的一个宏定义；关键字asmlinkage告诉编译器函数的参数从栈上获得，所有系统调用都采取这种参数传递方式；##用在宏中表示字符串链接。__stringify表示字符串化，也即:  
+```c
+    #define __stringify_1(x...) #x  
+    #define __stringify(x...)   __stringify_1(x)  
+```
 
 
 
