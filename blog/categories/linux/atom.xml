@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Linux | Weizhenwei's Technical Blog]]></title>
   <link href="http://weizhenwei.github.io/blog/categories/linux/atom.xml" rel="self"/>
   <link href="http://weizhenwei.github.io/"/>
-  <updated>2014-12-10T23:38:01+08:00</updated>
+  <updated>2014-12-12T22:51:03+08:00</updated>
   <id>http://weizhenwei.github.io/</id>
   <author>
     <name><![CDATA[Weizhenwei]]></name>
@@ -61,8 +61,14 @@ asmlinkage long sys##name(__MAP(x,__SC_DECL,__VA_ARGS__))   \
     __attribute__((alias(__stringify(SyS##name))));         \  
 </code></pre>
 
-<p>&#8220;`
-&emsp;&emsp;其中SYSCALL_METADATA是和CONFIG_FTRACE_SYSCALLS相关的一个宏定义；关键字asmlinkage告诉编译器函数的参数从栈上获得，所有系统调用都采取这种参数传递方式；##用在宏中表示字符串链接。</p>
+<pre><code>&amp;emsp;&amp;emsp;其中SYSCALL_METADATA是和CONFIG_FTRACE_SYSCALLS相关的一个宏定义；关键字asmlinkage告诉编译器函数的参数从栈上获得，所有系统调用都采取这种参数传递方式；##用在宏中表示字符串链接。__stringify表示字符串化，也即:  
+</code></pre>
+
+<pre><code>#define __stringify_1(x...) #x  
+#define __stringify(x...)   __stringify_1(x)  
+</code></pre>
+
+<p>&#8220;`</p>
 ]]></content>
   </entry>
   

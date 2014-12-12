@@ -158,7 +158,16 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>&emsp;&emsp;其中SYSCALL_METADATA是和CONFIG_FTRACE_SYSCALLS相关的一个宏定义；关键字asmlinkage告诉编译器函数的参数从栈上获得，所有系统调用都采取这种参数传递方式；##用在宏中表示字符串链接。</p>
+<p>&emsp;&emsp;其中SYSCALL_METADATA是和CONFIG_FTRACE_SYSCALLS相关的一个宏定义；关键字asmlinkage告诉编译器函数的参数从栈上获得，所有系统调用都采取这种参数传递方式；##用在宏中表示字符串链接。__stringify表示字符串化，也即:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="cp">#define __stringify_1(x...) #x  </span>
+</span><span class='line'><span class="cp">#define __stringify(x...)   __stringify_1(x)  </span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
 </div>
 
 
