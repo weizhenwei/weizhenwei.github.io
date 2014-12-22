@@ -15,7 +15,7 @@ categories: linux
 
 ###2. 下载并解压缩wineqq  
 &emsp;&emsp;下载地址：[http://www.ubuntukylin.com/applications/showimg.php?lang=cn&id=23](http://www.ubuntukylin.com/applications/showimg.php?lang=cn&id=23)  
-&emsp;&emsp;然后用unzip命令解压缩。  
+&emsp;&emsp;然后用unzip命令解压缩，得到三个deb文件，安装之。  
 
 ###3. 安装wineqq  
     sudo dpkg -i wine-qqintl_0.1.3-2_i386.deb  
