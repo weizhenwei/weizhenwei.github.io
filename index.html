@@ -88,17 +88,17 @@
   </header>
 
 
-  <div class="entry-content"><p>&emsp;&emsp;本文之针对x86-64指令和ABI的综述，其内容翻译自参考文献[1]。</p>
+  <div class="entry-content"><p>&emsp;&emsp;本文是针对x86-64指令和ABI的综述，其内容翻译自参考文献[1]。</p>
 
-<h5>1 引言</h5>
+<h3>1 引言</h3>
 
 <p>x86-64指令一般有两个操作数：源操作数和目的操作数，目的操作数也作为结果存放地。<br/>
 linux下的x86-64指令格式采用AT&amp;T格式，也即源操作数在左边，目的操作数在右边。<br/>
 绝大多数x86-64指令采用后缀字母标示操作数的大小，例如q表示64为，b表示8位，w表示16位，l表示32位。</p>
 
-<h5>2 寄存器</h5>
+<h3>2 寄存器</h3>
 
-<p>x86-64有16个64位通用寄存器，在AT&amp;T格式中使用%前缀，其定义和在ABI中的角色如下表所示：</p>
+<p>x86-64有16个64位通用寄存器，在AT&amp;T格式中使用%做前缀，其定义和在ABI中的角色如下表所示：</p>
 
 <table>
 <thead>
@@ -127,7 +127,7 @@ linux下的x86-64指令格式采用AT&amp;T格式，也即源操作数在左边�
 <tr>
 <td style="text-align:center;"> %rdx          </td>
 <td style="text-align:center;"> no            </td>
-<td style="text-align:left;"> third argument register, also in idiv and imul</td>
+<td style="text-align:left;"> third argument register, also idiv and imul </td>
 </tr>
 <tr>
 <td style="text-align:center;"> %rsp          </td>
@@ -178,7 +178,7 @@ linux下的x86-64指令格式采用AT&amp;T格式，也即源操作数在左边�
 </table>
 
 
-<h5>3 函数调用</h5>
+<h3>3 函数调用</h3>
 
 <h5>参考文献</h5>
 
