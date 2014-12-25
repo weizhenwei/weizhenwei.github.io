@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://weizhenwei.github.io/blog/2014/12/25/x86-64zhi-ling-he-abi/</loc>
+    <lastmod>2014-12-25T21:51:09+08:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>http://weizhenwei.github.io/blog/2014/12/15/ubuntuan-zhuang-wineqq/</loc>
     <lastmod>2014-12-15T21:13:03+08:00</lastmod>
     <priority>0.8</priority>
@@ -22,19 +27,19 @@
   </url>
   <url>
     <loc>http://weizhenwei.github.io/blog/archives/</loc>
-    <lastmod>2014-12-22T23:10:09+08:00</lastmod>
+    <lastmod>2014-12-25T22:56:01+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>http://weizhenwei.github.io/</loc>
-    <lastmod>2014-12-22T23:10:09+08:00</lastmod>
+    <lastmod>2014-12-25T22:56:01+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>http://weizhenwei.github.io/aboutme/</loc>
-    <lastmod>2014-12-22T23:10:09+08:00</lastmod>
+    <lastmod>2014-12-25T22:56:01+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
