@@ -49,6 +49,10 @@ Mac OS Ｘ和Ｌinux操作系统的函数调用都遵从System V ABI，
 帧指针%rbp指向当前函数栈帧基址(栈底)，栈指针%rsp指向当前函数栈帧栈顶。  
 一般说来，帧指针%rbp用来存取函数栈帧上的数据，例如传递进来的函数参数，或者函数的本地局部变量。
 System V ABI要求要求函数栈帧16字节对齐，这要求函数栈帧的大小应该是16的倍数。  
+函数栈帧结构图如下所示：  
+<p align="center">
+  <img src="/images/2014-12-25-x86-64zhi-ling-he-abi-stack-frame.png" alt="stack-frame"/>
+</p>
 
 
 #####参考文献
