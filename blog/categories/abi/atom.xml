@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Abi | Weizhenwei's Technical Blog]]></title>
   <link href="http://weizhenwei.github.io/blog/categories/abi/atom.xml" rel="self"/>
   <link href="http://weizhenwei.github.io/"/>
-  <updated>2014-12-25T23:05:37+08:00</updated>
+  <updated>2014-12-28T23:12:11+08:00</updated>
   <id>http://weizhenwei.github.io/</id>
   <author>
     <name><![CDATA[Weizhenwei]]></name>
@@ -108,7 +108,16 @@ linux下的x86-64指令格式采用AT&amp;T格式，也即源操作数在左边�
 </table>
 
 
-<h3>3 函数调用</h3>
+<p>寄存器%rbp，%rbx和%r12~%r15是callee-save的，也即由被调用函数保存。</p>
+
+<h3>3 函数调用约定</h3>
+
+<p>Mac OS Ｘ和Ｌinux操作系统的函数调用都遵从System V ABI，<br/>
+有三个x86-64指令用来实现函数调用和返回：<br/>
+&emsp;&emsp;&ensp;call:返回地址(当前下一条指令地址)压栈，控制权转移到操作数所在的地址；<br/>
+&emsp;&emsp;leave:设置栈指针%rsp为为帧%rbp，恢复帧指针%rbp为栈上保存的帧指针，<br/>
+&emsp;&emsp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;该指针从函数栈上弹出；<br/>
+&emsp;&emsp;&ensp;&ensp;ret:返回值从函数栈弹出，并跳转到该地址；</p>
 
 <h5>参考文献</h5>
 
