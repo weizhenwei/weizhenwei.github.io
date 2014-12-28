@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Abi | Weizhenwei's Technical Blog]]></title>
   <link href="http://weizhenwei.github.io/blog/categories/abi/atom.xml" rel="self"/>
   <link href="http://weizhenwei.github.io/"/>
-  <updated>2014-12-28T23:36:51+08:00</updated>
+  <updated>2014-12-29T00:28:42+08:00</updated>
   <id>http://weizhenwei.github.io/</id>
   <author>
     <name><![CDATA[Weizhenwei]]></name>
@@ -129,7 +129,13 @@ linux下的x86-64指令格式采用AT&amp;T格式，也即源操作数在左边�
 <p>函数栈帧从高地址往低地址方向增长，System V ABI使用两个寄存器访问函数栈帧：帧指针%rbp和栈指针%rsp。
 帧指针%rbp指向当前函数栈帧基址(栈底)，栈指针%rsp指向当前函数栈帧栈顶。<br/>
 一般说来，帧指针%rbp用来存取函数栈帧上的数据，例如传递进来的函数参数，或者函数的本地局部变量。
-System V ABI要求要求函数栈帧16字节对齐，这要求函数栈帧的大小应该是16的倍数。</p>
+System V ABI要求要求函数栈帧16字节对齐，这要求函数栈帧的大小应该是16的倍数。<br/>
+函数栈帧结构图如下所示：</p>
+
+<p align="center">
+  <img src="http://weizhenwei.github.io/images/2014-12-25-x86-64zhi-ling-he-abi-stack-frame.png" alt="stack-frame"/>
+</p>
+
 
 <h5>参考文献</h5>
 
