@@ -214,13 +214,49 @@ System V ABI要求要求函数栈帧16字节对齐，这要求函数栈帧的大
 2）call指令使得程序控制转向callee函数，该函数首先需要执行链接和初始化任务，这些任务由以下指令序列完成：<br/>
 &ensp;&ensp;&ensp;&ensp;pushq %rbp;<br/>
 &ensp;&ensp;&ensp;&ensp;movq %rsp, %rbp;<br/>
-&ensp;&ensp;&ensp;&ensp;subq %N, %rbp;<br/>
-第一条指令用来保存帧指针，第二条指令初始化帧指针为当前栈指针，第三条指令为callee函数分配栈空间；<br/>
-对于callee-save的那些寄存器，如果在函数体中用到这些寄存器，那么接下来需要通过一系列pushq指令保存这些callee-save寄存器到函数栈帧上。<br/>
-接下来是函数体部分的执行。<br/>
+&ensp;&ensp;&ensp;&ensp;subq $N, %rbp;<br/>
+第一条指令用来保存帧指针，第二条指令初始化帧指针为当前栈指针，第三条指令为callee函数分配栈空间；对于callee-save的那些寄存器，如果在函数体中用到这些寄存器，那么接下来需要通过一系列pushq指令保存这些callee-save寄存器到函数栈帧上。接下来是函数体部分的执行。<br/>
 3）函数体部分执行完以后，将执行callee返回部分：首先将函数返回值置入%rax中；然后释放函数栈帧空间，并恢复%rsp，%rbp寄存器；最后调用leave/ret指令返回到caller部分。<br/>
 4）在caller端，如果它为callee的函数参数分配了存储空间，则在此时需要释放这些空间。<br/>
 至此，一个完整的函数调用过程完成。</p>
+
+<h3>4 指令</h3>
+
+<p>关于指令部分，内容实在太多，具体请参考x86-64的指令手册。此处仅仅略述操作数。
+x86-64指令的操作数有三种：寄存器(以%为前缀)，立即数(以$为前缀)和内存地址。内存地址的寻址方式概述如下：</p>
+
+<table>
+<thead>
+<tr>
+<th style="text-align:center;"> Syntax          </th>
+<th style="text-align:center;"> Address       </th>
+<th style="text-align:left;">                 Description                    </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;"> (reg)           </td>
+<td style="text-align:center;"> reg           </td>
+<td style="text-align:left;"> Base addressing                                </td>
+</tr>
+<tr>
+<td style="text-align:center;"> d(reg)          </td>
+<td style="text-align:center;"> reg+d         </td>
+<td style="text-align:left;"> Base plus displacement addressing              </td>
+</tr>
+<tr>
+<td style="text-align:center;"> d(reg, s)       </td>
+<td style="text-align:center;"> s*reg+d       </td>
+<td style="text-align:left;"> Scaled index plus displacement, s in {2, 4, 8} </td>
+</tr>
+<tr>
+<td style="text-align:center;"> d(reg1, reg2, s)</td>
+<td style="text-align:center;"> reg1+s*reg2+d </td>
+<td style="text-align:left;"> Base plus scaled index plus displacement       </td>
+</tr>
+</tbody>
+</table>
+
 
 <h5>参考文献</h5>
 
