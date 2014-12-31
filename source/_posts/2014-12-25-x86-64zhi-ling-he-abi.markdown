@@ -55,7 +55,7 @@ System V ABI要求要求函数栈帧16字节对齐，这要求函数栈帧的大
 </p>
 ####3.3 函数调用协议
 函数调用协议分为caller端和callee端，每端各有两个重要步骤：  
-1）caller端首先要保存caller-save寄存器到到函数栈上，并加载函数参数到合适的寄存器和函数栈位置，然后执行call指令；  
+1）caller端首先保存caller-save寄存器到到函数栈上，并根据ABI加载函数参数到规定的寄存器和函数栈位置，然后执行call指令；  
 2）call指令使得程序控制转向callee函数，该函数首先需要执行链接和初始化任务，这些任务由以下指令序列完成：  
 &ensp;&ensp;&ensp;&ensp;pushq %rbp;  
 &ensp;&ensp;&ensp;&ensp;movq %rsp, %rbp;  
