@@ -1,0 +1,289 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Linux 系统调用实现-以read为例 - Weizhenwei&#8217;s Technical Blog</title>
+  <meta name="author" content="Weizhenwei">
+
+  
+  <meta name="description" content="&emsp;&emsp;Linux系统调用是连接用户态和内核态的纽带，弄清楚这个过程对于理解Linux操作系统具有十分重要的意义。下面以read系统调用为例分析这一过程。本文中Linux内核代码版本为3.16，glibc版本为2.20。 1. sys_read系统调用的定义(在内核文件fs/ &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://weizhenwei.github.io/blog/2014/12/08/linux-xi-tong-diao-yong-shi-xian-yi-sys-readwei-li">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Weizhenwei's Technical Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Weizhenwei&#8217;s Technical Blog</a></h1>
+  
+    <h2>A technical blog of weizhenwei&#8217;s technical docs and ideas.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:weizhenwei.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/aboutme">About Me</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Linux 系统调用实现-以read为例</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-12-08T21:52:21+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>9:52 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>&emsp;&emsp;Linux系统调用是连接用户态和内核态的纽带，弄清楚这个过程对于理解Linux操作系统具有十分重要的意义。下面以read系统调用为例分析这一过程。本文中Linux内核代码版本为3.16，glibc版本为2.20。</p>
+
+<h3>1. sys_read系统调用的定义(在内核文件fs/read_write.c中):</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="n">SYSCALL_DEFINE3</span><span class="p">(</span><span class="n">read</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">int</span><span class="p">,</span> <span class="n">fd</span><span class="p">,</span> <span class="kt">char</span> <span class="n">__user</span> <span class="o">*</span><span class="p">,</span> <span class="n">buf</span><span class="p">,</span> <span class="kt">size_t</span><span class="p">,</span> <span class="n">count</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">struct</span> <span class="n">fd</span> <span class="n">f</span> <span class="o">=</span> <span class="n">fdget_pos</span><span class="p">(</span><span class="n">fd</span><span class="p">);</span>
+</span><span class='line'>    <span class="kt">ssize_t</span> <span class="n">ret</span> <span class="o">=</span> <span class="o">-</span><span class="n">EBADF</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">f</span><span class="p">.</span><span class="n">file</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="kt">loff_t</span> <span class="n">pos</span> <span class="o">=</span> <span class="n">file_pos_read</span><span class="p">(</span><span class="n">f</span><span class="p">.</span><span class="n">file</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">ret</span> <span class="o">=</span> <span class="n">vfs_read</span><span class="p">(</span><span class="n">f</span><span class="p">.</span><span class="n">file</span><span class="p">,</span> <span class="n">buf</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">pos</span><span class="p">);</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span>
+</span><span class='line'>            <span class="n">file_pos_write</span><span class="p">(</span><span class="n">f</span><span class="p">.</span><span class="n">file</span><span class="p">,</span> <span class="n">pos</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">fdput_pos</span><span class="p">(</span><span class="n">f</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>&emsp;&emsp;sys_read的实现代码比较简单：首先根据文件描述符fd通过fdget_pos(fd)从当前进程结构中得到fd对应的struct fd结构（这个fd结构是struct file结构的进一步封装）；然后调用file_pos_read(f.file)得到当前文件读位置；最后调用vsf_read()进行文件读取操作；如果读取成功，则调用file_pos_write函数更新文件的读当前位置；最后调用fdput_pos函数更新文件的引用计数；最终sys_read返回读取的字节数。<br/>
+&emsp;&emsp;sys_read系统调用实现的核心是vfs_read函数，这涉及到Linux的VFS虚拟文件系统机制，这是另外一个主题，在此就不深入展开了。</p>
+
+<h3>2. SYSCALL_DEFINEx宏的定义</h3>
+
+<p>&emsp;&emsp;SYSCALL_DEFINEx宏是理解Linux内核系统调用定义的关键，该宏在include/linux/syscalls.h中定义：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="cp">#define SYSCALL_DEFINE1(name, ...) SYSCALL_DEFINEx(1, _##name, __VA_ARGS__)  </span>
+</span><span class='line'><span class="cp">#define SYSCALL_DEFINE2(name, ...) SYSCALL_DEFINEx(2, _##name, __VA_ARGS__)  </span>
+</span><span class='line'><span class="cp">#define SYSCALL_DEFINE3(name, ...) SYSCALL_DEFINEx(3, _##name, __VA_ARGS__)  </span>
+</span><span class='line'><span class="cp">#define SYSCALL_DEFINE4(name, ...) SYSCALL_DEFINEx(4, _##name, __VA_ARGS__)  </span>
+</span><span class='line'><span class="cp">#define SYSCALL_DEFINE5(name, ...) SYSCALL_DEFINEx(5, _##name, __VA_ARGS__)  </span>
+</span><span class='line'><span class="cp">#define SYSCALL_DEFINE6(name, ...) SYSCALL_DEFINEx(6, _##name, __VA_ARGS__)  </span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#define SYSCALL_DEFINEx(x, sname, ...)          \  </span>
+</span><span class='line'><span class="n">SYSCALL_METADATA</span><span class="p">(</span><span class="n">sname</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">__VA_ARGS__</span><span class="p">)</span>         <span class="err">\</span>
+</span><span class='line'><span class="n">__SYSCALL_DEFINEx</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">sname</span><span class="p">,</span> <span class="n">__VA_ARGS__</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#define __SYSCALL_DEFINEx(x, name, ...)                     \  </span>
+</span><span class='line'><span class="n">asmlinkage</span> <span class="kt">long</span> <span class="n">sys</span><span class="err">##</span><span class="n">name</span><span class="p">(</span><span class="n">__MAP</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">__SC_DECL</span><span class="p">,</span><span class="n">__VA_ARGS__</span><span class="p">))</span>   <span class="err">\</span>
+</span><span class='line'>    <span class="n">__attribute__</span><span class="p">((</span><span class="n">alias</span><span class="p">(</span><span class="n">__stringify</span><span class="p">(</span><span class="n">SyS</span><span class="err">##</span><span class="n">name</span><span class="p">))));</span>         <span class="err">\</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>&emsp;&emsp;其中SYSCALL_METADATA是和CONFIG_FTRACE_SYSCALLS相关的一个宏定义；关键字asmlinkage告诉编译器函数的参数从栈上获得，所有系统调用都采取这种参数传递方式；##用在宏中表示字符串链接。__stringify表示字符串化，也即:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="cp">#define __stringify_1(x...) #x  </span>
+</span><span class='line'><span class="cp">#define __stringify(x...)   __stringify_1(x)  </span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Weizhenwei</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2014-12-08T21:52:21+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>9:52 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/kernel/'>kernel</a>, <a class='category' href='/blog/categories/linux/'>linux</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/12/07/add-category-to-octopress/" title="Previous Post: add category to octopress">&laquo; add category to octopress</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/12/15/ubuntuan-zhuang-wineqq/" title="Next Post: Ubuntu安装WineQQ">Ubuntu安装WineQQ &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>Categories</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/abi/'>abi (1)</a></li>
+<li class='category'><a href='/blog/categories/algorithm/'>algorithm (1)</a></li>
+<li class='category'><a href='/blog/categories/kernel/'>kernel (1)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (2)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (2)</a></li>
+<li class='category'><a href='/blog/categories/x86-64/'>x86-64 (1)</a></li>
+ 
+  </ul> 
+</section>
+
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/09/22/on-recursion-and-iteration-in-algorithm/">On Recursion and Iteration in Algorithm</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/12/25/x86-64zhi-ling-he-abi/">x86-64指令和ABI</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/12/15/ubuntuan-zhuang-wineqq/">Ubuntu安装WineQQ</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/12/08/linux-xi-tong-diao-yong-shi-xian-yi-sys-readwei-li/">Linux 系统调用实现-以read为例</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/12/07/add-category-to-octopress/">Add Category to Octopress</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - Weizhenwei -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

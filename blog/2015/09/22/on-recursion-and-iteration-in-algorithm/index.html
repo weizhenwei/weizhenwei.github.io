@@ -1,0 +1,328 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>On Recursion and Iteration in Algorithm - Weizhenwei&#8217;s Technical Blog</title>
+  <meta name="author" content="Weizhenwei">
+
+  
+  <meta name="description" content="&emsp;&emsp;本文是刷leetcode的一点心得。 1 算法设计领域的迭代和递归 &emsp;&emsp;在计算机程序设计或者算法设计领域，迭代和递归在本质上是一致的：
+每次递归或迭代是为了解决原问题的子问题，然后根据子问题的结果和当前问题的状态
+综合求解当前问题。所不同的是： &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://weizhenwei.github.io/blog/2015/09/22/on-recursion-and-iteration-in-algorithm">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Weizhenwei's Technical Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Weizhenwei&#8217;s Technical Blog</a></h1>
+  
+    <h2>A technical blog of weizhenwei&#8217;s technical docs and ideas.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:weizhenwei.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/aboutme">About Me</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">On Recursion and Iteration in Algorithm</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-09-22T22:59:40+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>10:59 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>&emsp;&emsp;本文是刷leetcode的一点心得。</p>
+
+<h3>1 算法设计领域的迭代和递归</h3>
+
+<p>&emsp;&emsp;在计算机程序设计或者算法设计领域，迭代和递归在本质上是一致的：
+每次递归或迭代是为了解决原问题的子问题，然后根据子问题的结果和当前问题的状态
+综合求解当前问题。所不同的是：在递归方法中，先求得子问题的解，然后接合当前
+状态求得问题结果。而在迭代方法中，使用栈保存当前问题的求解状态，然后把当前问题
+分解为子问题，并把当前状态和子问题入栈；接下来对栈中的元素迭代求解，并记录最终
+结果的中间状态，直到栈为空，此时返回最终的求解结果。<br/>
+&emsp;&emsp;对于很多问题，用递归的方法很容易就容易解决，而用迭代的方法则不那么
+直观，甚至感觉难以下手。这是因为在递归方法中，保存中间结果和栈的操作都交由函数
+调用去实现了，而在迭代方法中，这些都需要在算法中手动处理。不过，只要能认识到递归
+和函数其实是一样的，那么就可以很自信的说：能用递归解决的问题就一定能用迭代解决。<br/>
+&emsp;&emsp;下面以一些leetcode中的题目为例进行分析。</p>
+
+<h3>2 例题</h3>
+
+<p>&emsp;&emsp;<a href="https://leetcode.com/problems/invert-binary-tree/">Invert Binary Tree</a><br/>
+Recursive Version:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='c++'><span class='line'><span class="n">TreeNode</span><span class="o">*</span> <span class="nf">invertTreeRecursive</span><span class="p">(</span><span class="n">TreeNode</span><span class="o">*</span> <span class="n">root</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">root</span> <span class="o">==</span> <span class="nb">NULL</span> <span class="o">||</span> <span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">==</span> <span class="nb">NULL</span> <span class="o">&amp;&amp;</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">))</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">root</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">root</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">=</span> <span class="n">invertTreeRecursive</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">=</span> <span class="n">invertTreeRecursive</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">TreeNode</span> <span class="o">*</span><span class="n">tmpNode</span> <span class="o">=</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">root</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">=</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">=</span> <span class="n">tmpNode</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">root</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Iterative Version:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class='c++'><span class='line'><span class="n">TreeNode</span><span class="o">*</span> <span class="nf">invertTreeIterative</span><span class="p">(</span><span class="n">TreeNode</span><span class="o">*</span> <span class="n">root</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">root</span> <span class="o">==</span> <span class="nb">NULL</span> <span class="o">||</span> <span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">==</span> <span class="nb">NULL</span> <span class="o">&amp;&amp;</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">))</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">root</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">stack</span><span class="o">&lt;</span><span class="n">TreeNode</span><span class="o">*&gt;</span> <span class="n">theStack</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">theStack</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">root</span><span class="p">);</span>
+</span><span class='line'>    <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">theStack</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">TreeNode</span> <span class="o">*</span><span class="n">topNode</span> <span class="o">=</span> <span class="n">theStack</span><span class="p">.</span><span class="n">top</span><span class="p">();</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">topNode</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">==</span> <span class="nb">NULL</span> <span class="o">&amp;&amp;</span> <span class="n">topNode</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">theStack</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+</span><span class='line'>        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">TreeNode</span> <span class="o">*</span><span class="n">tmpNode</span> <span class="o">=</span> <span class="n">topNode</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">;</span>
+</span><span class='line'>            <span class="n">topNode</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">=</span> <span class="n">topNode</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">;</span>
+</span><span class='line'>            <span class="n">topNode</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">=</span> <span class="n">tmpNode</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="n">theStack</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+</span><span class='line'>            <span class="k">if</span> <span class="p">(</span><span class="n">topNode</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">theStack</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">topNode</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">);</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>            <span class="k">if</span> <span class="p">(</span><span class="n">topNode</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">theStack</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">topNode</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">);</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>  <span class="c1">// while  </span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">return</span> <span class="n">root</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>3 结论</h3>
+
+<p>&emsp;&emsp;能用递归解决的问题，就一定能用迭代解决。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Weizhenwei</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-09-22T22:59:40+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>10:59 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/algorithm/'>algorithm</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/12/25/x86-64zhi-ling-he-abi/" title="Previous Post: x86-64指令和ABI">&laquo; x86-64指令和ABI</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>Categories</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/abi/'>abi (1)</a></li>
+<li class='category'><a href='/blog/categories/algorithm/'>algorithm (1)</a></li>
+<li class='category'><a href='/blog/categories/kernel/'>kernel (1)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (2)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (2)</a></li>
+<li class='category'><a href='/blog/categories/x86-64/'>x86-64 (1)</a></li>
+ 
+  </ul> 
+</section>
+
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/09/22/on-recursion-and-iteration-in-algorithm/">On Recursion and Iteration in Algorithm</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/12/25/x86-64zhi-ling-he-abi/">x86-64指令和ABI</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/12/15/ubuntuan-zhuang-wineqq/">Ubuntu安装WineQQ</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/12/08/linux-xi-tong-diao-yong-shi-xian-yi-sys-readwei-li/">Linux 系统调用实现-以read为例</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/12/07/add-category-to-octopress/">Add Category to Octopress</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - Weizhenwei -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

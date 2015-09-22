@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Kernel | Weizhenwei's Technical Blog]]></title>
+  <link href="http://weizhenwei.github.io/blog/categories/kernel/atom.xml" rel="self"/>
+  <link href="http://weizhenwei.github.io/"/>
+  <updated>2015-09-22T23:35:28+08:00</updated>
+  <id>http://weizhenwei.github.io/</id>
+  <author>
+    <name><![CDATA[Weizhenwei]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Linux 系统调用实现-以read为例]]></title>
+    <link href="http://weizhenwei.github.io/blog/2014/12/08/linux-xi-tong-diao-yong-shi-xian-yi-sys-readwei-li/"/>
+    <updated>2014-12-08T21:52:21+08:00</updated>
+    <id>http://weizhenwei.github.io/blog/2014/12/08/linux-xi-tong-diao-yong-shi-xian-yi-sys-readwei-li</id>
+    <content type="html"><![CDATA[<p>&emsp;&emsp;Linux系统调用是连接用户态和内核态的纽带，弄清楚这个过程对于理解Linux操作系统具有十分重要的意义。下面以read系统调用为例分析这一过程。本文中Linux内核代码版本为3.16，glibc版本为2.20。</p>
+
+<h3>1. sys_read系统调用的定义(在内核文件fs/read_write.c中):</h3>
+
+<pre><code class="c">    SYSCALL_DEFINE3(read, unsigned int, fd, char __user *, buf, size_t, count)  
+    {  
+        struct fd f = fdget_pos(fd);  
+        ssize_t ret = -EBADF;  
+
+        if (f.file) {  
+            loff_t pos = file_pos_read(f.file);  
+            ret = vfs_read(f.file, buf, count, &amp;pos);  
+            if (ret &gt;= 0)  
+                file_pos_write(f.file, pos);  
+            fdput_pos(f);  
+        }  
+        return ret;  
+    }  
+</code></pre>
+
+<p>&emsp;&emsp;sys_read的实现代码比较简单：首先根据文件描述符fd通过fdget_pos(fd)从当前进程结构中得到fd对应的struct fd结构（这个fd结构是struct file结构的进一步封装）；然后调用file_pos_read(f.file)得到当前文件读位置；最后调用vsf_read()进行文件读取操作；如果读取成功，则调用file_pos_write函数更新文件的读当前位置；最后调用fdput_pos函数更新文件的引用计数；最终sys_read返回读取的字节数。<br/>
+&emsp;&emsp;sys_read系统调用实现的核心是vfs_read函数，这涉及到Linux的VFS虚拟文件系统机制，这是另外一个主题，在此就不深入展开了。</p>
+
+<h3>2. SYSCALL_DEFINEx宏的定义</h3>
+
+<p>&emsp;&emsp;SYSCALL_DEFINEx宏是理解Linux内核系统调用定义的关键，该宏在include/linux/syscalls.h中定义：<br/>
+&#8220;`c
+    #define SYSCALL_DEFINE1(name, &hellip;) SYSCALL_DEFINEx(1, <em>##name, <strong>VA_ARGS</strong>)<br/>
+    #define SYSCALL_DEFINE2(name, &hellip;) SYSCALL_DEFINEx(2, </em>##name, <strong>VA_ARGS</strong>)<br/>
+    #define SYSCALL_DEFINE3(name, &hellip;) SYSCALL_DEFINEx(3, <em>##name, <strong>VA_ARGS</strong>)<br/>
+    #define SYSCALL_DEFINE4(name, &hellip;) SYSCALL_DEFINEx(4, </em>##name, <strong>VA_ARGS</strong>)<br/>
+    #define SYSCALL_DEFINE5(name, &hellip;) SYSCALL_DEFINEx(5, <em>##name, <strong>VA_ARGS</strong>)<br/>
+    #define SYSCALL_DEFINE6(name, &hellip;) SYSCALL_DEFINEx(6, </em>##name, <strong>VA_ARGS</strong>)</p>
+
+<pre><code>#define SYSCALL_DEFINEx(x, sname, ...)          \  
+SYSCALL_METADATA(sname, x, __VA_ARGS__)         \  
+__SYSCALL_DEFINEx(x, sname, __VA_ARGS__)  
+
+#define __SYSCALL_DEFINEx(x, name, ...)                     \  
+asmlinkage long sys##name(__MAP(x,__SC_DECL,__VA_ARGS__))   \  
+    __attribute__((alias(__stringify(SyS##name))));         \  
+</code></pre>
+
+<pre><code>&amp;emsp;&amp;emsp;其中SYSCALL_METADATA是和CONFIG_FTRACE_SYSCALLS相关的一个宏定义；关键字asmlinkage告诉编译器函数的参数从栈上获得，所有系统调用都采取这种参数传递方式；##用在宏中表示字符串链接。__stringify表示字符串化，也即:  
+</code></pre>
+
+<pre><code>#define __stringify_1(x...) #x  
+#define __stringify(x...)   __stringify_1(x)  
+</code></pre>
+
+<p>&#8220;`</p>
+]]></content>
+  </entry>
+  
+</feed>
