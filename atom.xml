@@ -1,94 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
 
-<!DOCTYPE html>
-<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
-<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <title>Weizhenwei&#8217;s Technical Blog</title>
-  <meta name="author" content="Weizhenwei">
-
-  
-  <meta name="description" content="Weizhenwei's technical blog">
-  
-
-  <!-- http://t.co/dKP3o1e -->
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  
-  <link rel="canonical" href="http://weizhenwei.github.io">
-  <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <link href="/atom.xml" rel="alternate" title="Weizhenwei's Technical Blog" type="application/atom+xml">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-
-  
-
-</head>
-
-<body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">Weizhenwei&#8217;s Technical Blog</a></h1>
-  
-    <h2>A technical blog of weizhenwei&#8217;s technical docs and ideas.</h2>
-  
-</hgroup>
-
-</header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="https://www.google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:weizhenwei.github.io" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
-<ul class="main-navigation">
-  <li><a href="/">Blog</a></li>
-  <li><a href="/blog/archives">Archives</a></li>
-  <li><a href="/aboutme">About Me</a></li>
-</ul>
-
-</nav>
-  <div id="main">
-    <div id="content">
-      <div class="blog-index">
-  
-  
-  
-    <article>
-      
-  <header>
+  <title><![CDATA[Weizhenwei's Technical Blog]]></title>
+  <link href="http://weizhenwei.github.io/atom.xml" rel="self"/>
+  <link href="http://weizhenwei.github.io/"/>
+  <updated>2015-09-22T23:45:13+08:00</updated>
+  <id>http://weizhenwei.github.io/</id>
+  <author>
+    <name><![CDATA[Weizhenwei]]></name>
     
-      <h1 class="entry-title"><a href="/blog/2015/09/22/on-recursion-and-iteration-in-algorithm/">On Recursion and Iteration in Algorithm</a></h1>
-    
-    
-      <p class="meta">
-        
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
 
-
-
-
-<time class='entry-date' datetime='2015-09-22T22:59:40+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>10:59 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>&emsp;&emsp;本文是刷leetcode的一点心得。</p>
+  
+  <entry>
+    <title type="html"><![CDATA[On Recursion and Iteration in Algorithm]]></title>
+    <link href="http://weizhenwei.github.io/blog/2015/09/22/on-recursion-and-iteration-in-algorithm/"/>
+    <updated>2015-09-22T22:59:40+08:00</updated>
+    <id>http://weizhenwei.github.io/blog/2015/09/22/on-recursion-and-iteration-in-algorithm</id>
+    <content type="html"><![CDATA[<p>&emsp;&emsp;本文是刷leetcode的一点心得。</p>
 
 <h3>1 算法设计领域的迭代和递归</h3>
 
@@ -210,35 +140,15 @@ Recursive Version:</p>
 <h3>3 结论</h3>
 
 <p>&emsp;&emsp;能用递归解决的问题，就一定能用迭代解决。</p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/12/25/x86-64zhi-ling-he-abi/">x86-64指令和ABI</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2014-12-25T21:51:09+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>9:51 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>&emsp;&emsp;本文是针对x86-64指令和ABI的综述，其内容翻译自参考文献[1]。</p>
+  <entry>
+    <title type="html"><![CDATA[x86-64指令和ABI]]></title>
+    <link href="http://weizhenwei.github.io/blog/2014/12/25/x86-64zhi-ling-he-abi/"/>
+    <updated>2014-12-25T21:51:09+08:00</updated>
+    <id>http://weizhenwei.github.io/blog/2014/12/25/x86-64zhi-ling-he-abi</id>
+    <content type="html"><![CDATA[<p>&emsp;&emsp;本文是针对x86-64指令和ABI的综述，其内容翻译自参考文献[1]。</p>
 
 <h3>1 引言</h3>
 
@@ -353,7 +263,7 @@ System V ABI要求要求函数栈帧16字节对齐，这要求函数栈帧的大
 函数栈帧结构图如下所示：</p>
 
 <p align="center">
-  <img src="/images/2014-12-25-x86-64zhi-ling-he-abi-stack-frame.png" alt="stack-frame"/>
+  <img src="http://weizhenwei.github.io/images/2014-12-25-x86-64zhi-ling-he-abi-stack-frame.png" alt="stack-frame"/>
 </p>
 
 
@@ -411,35 +321,15 @@ x86-64指令的操作数有三种：寄存器(以%为前缀)，立即数(以$为
 <h5>参考文献</h5>
 
 <p><a href="http://www.classes.cs.uchicago.edu/archive/2009/spring/22620-1/docs/handout-03.pdf">http://www.classes.cs.uchicago.edu/archive/2009/spring/22620-1/docs/handout-03.pdf</a></p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/12/15/ubuntuan-zhuang-wineqq/">Ubuntu安装WineQQ</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2014-12-15T21:13:03+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>9:13 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>&emsp;&emsp;如果以Ubuntu(或者其变种Mint)作为日常工作环境的话，那么类似于字处理，挂QQ等将成为不可避免的需求。关于在Ubuntu上挂QQ，之前的解决方案是使用VirtualBox安装windows,然后在windows里安装QQ；最近也使用Qemu安装过Win7。很明显为挂个QQ而安装虚拟机太笨重，非常耗费系统资源。最近经过调研发现一种新解决办法，即WineQQ。亲测好用，记录之。</p>
+  <entry>
+    <title type="html"><![CDATA[Ubuntu安装WineQQ]]></title>
+    <link href="http://weizhenwei.github.io/blog/2014/12/15/ubuntuan-zhuang-wineqq/"/>
+    <updated>2014-12-15T21:13:03+08:00</updated>
+    <id>http://weizhenwei.github.io/blog/2014/12/15/ubuntuan-zhuang-wineqq</id>
+    <content type="html"><![CDATA[<p>&emsp;&emsp;如果以Ubuntu(或者其变种Mint)作为日常工作环境的话，那么类似于字处理，挂QQ等将成为不可避免的需求。关于在Ubuntu上挂QQ，之前的解决方案是使用VirtualBox安装windows,然后在windows里安装QQ；最近也使用Qemu安装过Win7。很明显为挂个QQ而安装虚拟机太笨重，非常耗费系统资源。最近经过调研发现一种新解决办法，即WineQQ。亲测好用，记录之。</p>
 
 <h3>1. 安装依赖库</h3>
 
@@ -466,35 +356,15 @@ sudo dpkg -i fonts-wqy-microhei_0.2.0-beta-2_all.deb
 <h3>参考文献</h3>
 
 <p><a href="http://bubuko.com/infodetail-343048.html">http://bubuko.com/infodetail-343048.html</a></p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/12/08/linux-xi-tong-diao-yong-shi-xian-yi-sys-readwei-li/">Linux 系统调用实现-以read为例</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2014-12-08T21:52:21+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>9:52 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>&emsp;&emsp;Linux系统调用是连接用户态和内核态的纽带，弄清楚这个过程对于理解Linux操作系统具有十分重要的意义。下面以read系统调用为例分析这一过程。本文中Linux内核代码版本为3.16，glibc版本为2.20。</p>
+  <entry>
+    <title type="html"><![CDATA[Linux 系统调用实现-以read为例]]></title>
+    <link href="http://weizhenwei.github.io/blog/2014/12/08/linux-xi-tong-diao-yong-shi-xian-yi-sys-readwei-li/"/>
+    <updated>2014-12-08T21:52:21+08:00</updated>
+    <id>http://weizhenwei.github.io/blog/2014/12/08/linux-xi-tong-diao-yong-shi-xian-yi-sys-readwei-li</id>
+    <content type="html"><![CDATA[<p>&emsp;&emsp;Linux系统调用是连接用户态和内核态的纽带，弄清楚这个过程对于理解Linux操作系统具有十分重要的意义。下面以read系统调用为例分析这一过程。本文中Linux内核代码版本为3.16，glibc版本为2.20。</p>
 
 <h3>1. sys_read系统调用的定义(在内核文件fs/read_write.c中):</h3>
 
@@ -577,35 +447,15 @@ sudo dpkg -i fonts-wqy-microhei_0.2.0-beta-2_all.deb
 
 
 
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/12/07/add-category-to-octopress/">Add Category to Octopress</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2014-12-07T23:05:39+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>11:05 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h5>1. 新建插件文件plugins/category_list_tag.rb, 内容如下:</h5>
+  <entry>
+    <title type="html"><![CDATA[Add Category to Octopress]]></title>
+    <link href="http://weizhenwei.github.io/blog/2014/12/07/add-category-to-octopress/"/>
+    <updated>2014-12-07T23:05:39+08:00</updated>
+    <id>http://weizhenwei.github.io/blog/2014/12/07/add-category-to-octopress</id>
+    <content type="html"><![CDATA[<h5>1. 新建插件文件plugins/category_list_tag.rb, 内容如下:</h5>
 
 <pre><code>module Jekyll  
   class CategoryListTag &lt; Liquid::Tag  
@@ -616,7 +466,7 @@ sudo dpkg -i fonts-wqy-microhei_0.2.0-beta-2_all.deb
         posts_in_category = context.registers[:site].categories[category].size  
         category_dir = context.registers[:site].config['category_dir']  
         category_url = File.join(category_dir, category.gsub(/_|\P{Word}/, '-').gsub(/-{2,}/, '-').downcase)  
-        html &lt;&lt; "&lt;li class='category'&gt;&lt;a href='/#{category_url}/'&gt;#{category} (#{posts_in_category})&lt;/a&gt;&lt;/li&gt;\n"  
+        html &lt;&lt; "&lt;li class='category'&gt;&lt;a href='http://weizhenwei.github.io/#{category_url}/'&gt;#{category} (#{posts_in_category})&lt;/a&gt;&lt;/li&gt;\n"  
       end  
       html  
     end  
@@ -648,35 +498,15 @@ Liquid::Template.register_tag('category_list', Jekyll::CategoryListTag)
 <h5>参考资料：</h5>
 
 <p><a href="http://www.cnblogs.com/oec2003/archive/2013/05/31/3109577.html">http://www.cnblogs.com/oec2003/archive/2013/05/31/3109577.html</a></p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/12/01/octopress-setup-and-deploy-on-github/">Octopress Setup and Deploy on Github</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2014-12-01T22:49:57+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2014</span></span> <span class='time'>10:49 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>经过充分调研，选定Octopress作为技术博客系统框架。
+  <entry>
+    <title type="html"><![CDATA[Octopress Setup and Deploy on Github]]></title>
+    <link href="http://weizhenwei.github.io/blog/2014/12/01/octopress-setup-and-deploy-on-github/"/>
+    <updated>2014-12-01T22:49:57+08:00</updated>
+    <id>http://weizhenwei.github.io/blog/2014/12/01/octopress-setup-and-deploy-on-github</id>
+    <content type="html"><![CDATA[<p>经过充分调研，选定Octopress作为技术博客系统框架。
 下面是在Linux mint 13操作系统上安装Octopress和在Github上部署的过程。</p>
 
 <h2>安装</h2>
@@ -771,87 +601,7 @@ git push origin source
 <a href="http://octopress.org/docs/deploying/github/">http://octopress.org/docs/deploying/github/</a><br/>
 <a href="http://octopress.org/docs/blogging/">http://octopress.org/docs/blogging/</a><br/>
 <a href="http://stackoverflow.com/questions/21356212/failed-to-deploy-to-github-pages-using-octopress">http://stackoverflow.com/questions/21356212/failed-to-deploy-to-github-pages-using-octopress</a></p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
-</div>
-<aside class="sidebar">
-  
-    <section> 
-  <h1>Categories</h1> 
-  <ul id="categories"> 
-    <li class='category'><a href='/blog/categories/abi/'>abi (1)</a></li>
-<li class='category'><a href='/blog/categories/algorithm/'>algorithm (1)</a></li>
-<li class='category'><a href='/blog/categories/kernel/'>kernel (1)</a></li>
-<li class='category'><a href='/blog/categories/linux/'>linux (2)</a></li>
-<li class='category'><a href='/blog/categories/octopress/'>octopress (2)</a></li>
-<li class='category'><a href='/blog/categories/x86-64/'>x86-64 (1)</a></li>
- 
-  </ul> 
-</section>
-
-<section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
-    
-      <li class="post">
-        <a href="/blog/2015/09/22/on-recursion-and-iteration-in-algorithm/">On Recursion and Iteration in Algorithm</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/12/25/x86-64zhi-ling-he-abi/">x86-64指令和ABI</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/12/15/ubuntuan-zhuang-wineqq/">Ubuntu安装WineQQ</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/12/08/linux-xi-tong-diao-yong-shi-xian-yi-sys-readwei-li/">Linux 系统调用实现-以read为例</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/12/07/add-category-to-octopress/">Add Category to Octopress</a>
-      </li>
-    
-  </ul>
-</section>
-
-
-
-
-
-  
-</aside>
-
-    </div>
-  </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2015 - Weizhenwei -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
-</p>
-
-</footer>
-  
-
-
-
-
-
-
-
-
-
-
-
-</body>
-</html>
+</feed>
